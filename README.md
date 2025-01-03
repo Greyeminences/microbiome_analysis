@@ -12,3 +12,5 @@ R ENVIRONMENT
 3a_explore_input_data
 3b_top_n_taxa_final
 3c_alpha_diversity
+
+![scripts pipeline](https://github.com/user-attachments/assets/73862873-f490-48a2-b185-e32e01db3b51)
