@@ -471,3 +471,9 @@ plot_bar(combined_5_uteruseq_relative, y = "Abundance", fill = "Species") +
   scale_fill_manual(values=palette17b) 
 #theme(legend.position = "none") 
 # scale_x_discrete(limits = ordered_samples1)
+
+#Save
+otu_as_df <- t(as.data.frame(otu_table(combined_5_uteruseq_relative)))
+write.table(otu_as_df, file = "combined_5_uteruseq_relative_otu_table.tsv", sep = "\t", 
+            row.names = TRUE, col.names = NA, quote = FALSE)
+
