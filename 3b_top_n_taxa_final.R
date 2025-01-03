@@ -384,3 +384,90 @@ plot_bar(profile4, y = "Abundance", fill = "Genus") +
   theme(legend.position = "none") 
   #scale_x_discrete(limits = ordered_samples3)
 
+                                                         
+###MERGED PROFILES ON ONE CHART________________________________
+###Files input
+otu_mat <- read.delim('Otu_table_uterus_merged_profiles.tsv')
+head(otu_mat)
+
+samples <- read.delim("Meta_table_uterus_merged_profiles.txt")
+head(samples)
+
+otu_mat <- otu_mat %>%
+  tibble::column_to_rownames("X.Classification") 
+
+samples <- samples %>% 
+  tibble::column_to_rownames("X.NAME") 
+
+otu_mat <- as.matrix(otu_mat)
+
+# Extract the rownames (SILVA long names) from the OTU table
+silva_long_names <- rownames(otu_mat)
+
+# Split the SILVA long names into separate taxonomic ranks by the '|' delimiter
+taxonomy <- strsplit(silva_long_names, "\\|") %>%
+  lapply(function(x) {
+    # Remove the "k__", "p__", etc. and keep only the taxon names
+    sapply(x, function(level) sub("^[a-z]__", "", level))  # This removes k__, p__, c__, etc.
+  }) %>%
+  do.call(rbind, .) %>%
+  as.data.frame()
+
+# Assign column names to represent taxonomic ranks
+colnames(taxonomy) <- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")[1:ncol(taxonomy)]
+
+# Set rownames (corresponding to OTUs) to match the OTU table
+rownames(taxonomy) <- rownames(otu_mat)
+
+# Convert to matrix for phyloseq
+tax_matrix <- as.matrix(taxonomy)
+
+# Check the first few rows of the generated taxonomy table
+head(tax_matrix)
+
+OTU = otu_table(otu_mat, taxa_are_rows = TRUE)
+TAX = tax_table(tax_matrix)
+samples = sample_data(samples)
+
+uteruseq <- phyloseq(OTU, TAX, samples)
+uteruseq
+
+## Make relative abundance if needed
+uteruseq_relative <- transform_sample_counts(uteruseq, function(x) x / sum(x)) 
+
+top_5_pruned_list <- prune_top_taxa_per_sample(physeq_obj = uteruseq_relative, top_n = 5)
+combined_5_uteruseq <- do.call(merge_phyloseq, top_5_pruned_list)
+combined_5_uteruseq_relative <- transform_sample_counts(combined_5_uteruseq, function(x) x / sum(x))
+
+## Set colors
+palette17a  <- c("#87af74", "#d77a7d", "#957fa1", "#674a63", "#da3b4e",
+                 "#b0bdea", "#d77a7d", "#51419d", "#55d5a6", "#51419d",
+                 "#51419d", "#51419d", "#51419d", "#9d75d6", "#5325a6",
+                 "#9fd4ab", "#55d5a6")
+
+palette17b  <- c("#87af74", "#d77a7d", "#957fa1", "#674a63", "#da3b4e",
+                 "#b0bdea", "#99345c", "#51419d", "#55d5a6", "#9c3196",
+                 "#d9be6b", "#5a64e2", "#e57ba4", "#9d75d6", "#da9f7b",
+                 "#325a58", "#1d2c19")
+
+## Plot results
+plot_bar(combined_5_uteruseq_relative, y = "Abundance", fill = "Species") +
+  facet_grid(~Microbiome_profile, scale="free") +
+  xlab("Microbiome_profile") +
+  ylab("Relative abundance") +
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  #scale_fill_manual(values=unique_colors_df_vector_genus) 
+  scale_fill_manual(values=palette17)
+#theme(legend.position = "none") +
+#scale_x_discrete(limits = ordered_samples1)
+
+plot_bar(combined_5_uteruseq_relative, y = "Abundance", fill = "Species") +
+  facet_grid(~Microbiome_profile, scale="free") +
+  xlab("Microbiome_profile") +
+  ylab("Relative abundance") +
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(values=palette17b) 
+#theme(legend.position = "none") 
+# scale_x_discrete(limits = ordered_samples1)
