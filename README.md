@@ -1,5 +1,5 @@
-# healthy_uterus_microbiome_analysis
-The repository consists of codes used for analyzing the data of a healthy uterus microbiome after nanopore sequencing. The input will be available when the article is published.
+# microbiome_analysis
+The repository consists of codes used for analyzing the data of a microbiome after nanopore sequencing. The input will be available when the article is published.
 
 PYTHON
 1a_input_normalization
