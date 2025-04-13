@@ -6,6 +6,7 @@ PYTHON
 1b_rare_taxa_exclusion<br/>
 1c_xlsx_to_tsv_converter<br/>
 <br/>
+2_dimension_reduction<br/>
 2_dimension_reduction_MDS<br/>
 <br/>
 R ENVIRONMENT
