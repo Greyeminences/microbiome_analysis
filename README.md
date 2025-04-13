@@ -14,4 +14,4 @@ R ENVIRONMENT
 3c_alpha_diversity<br/>
 3d_distance_matrix_unifrac
 
-![scripts pipelinee](https://github.com/user-attachments/assets/2fc329f1-a9a3-4b20-a24b-15e7eaad178b)
+![scripts pipeline (42 x 29 7 cm)horizontal](https://github.com/user-attachments/assets/cc2468e5-c33e-41cf-b81a-9edfb543eb54)
