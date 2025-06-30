@@ -9,7 +9,7 @@ lapply(packages, library, character.only = TRUE)
 library(DirichletMultinomial)
 
 niche <- 'uterus'
-output_folder <- '~/Huterus_again/again'
+output_folder <- '~/'
 
 ###Files input
 otu_mat <- read.delim('Otu_table_all_t0_none_1_rare.tsv')
