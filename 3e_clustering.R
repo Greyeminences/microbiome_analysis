@@ -57,10 +57,10 @@ gap_stat <- clusGap(as.matrix(unifrac_mat), FUN = pam, K.max = 10, B = 100)
 fviz_gap_stat(gap_stat)
 
 
-# clValid – Internal & stability validation (similar to ConsensusClusterPlus)
+# clValid
 library(clValid)
 
-# Again, use Euclidean data (e.g., from PCoA)
+# Euclidean data
 coords <- cmdscale(unifrac_mat, k = 10)
 
 # Evaluate clustering
